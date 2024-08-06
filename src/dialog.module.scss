@@ -1,0 +1,52 @@
+.dialog {
+  text-align: center;
+
+  inset: 0;
+  position: fixed;
+  overscroll-behavior: contain;
+
+  padding: 1rem;
+
+  border: none;
+  border-radius: 1rem;
+  width: 100%;
+
+  &::backdrop {
+    background-color: darkslategray;
+    opacity: 0.8;
+  }
+
+  &[data-anchor='top'] {
+    margin-top: 0;
+  }
+
+  &[data-anchor='right'] {
+    margin-right: 0;
+  }
+
+  &[data-anchor='bottom'] {
+    margin-bottom: 0;
+  }
+
+  &[data-anchor='left'] {
+    margin-left: 0;
+  }
+
+  &[data-anchor] {
+    // Centered modal on Desktop
+    @media (min-width: 768px) {
+      margin: auto;
+      width: 50%;
+    }
+  }
+}
+
+.close {
+  all: unset;
+
+  cursor: pointer;
+
+  position: absolute;
+  right: 0.5rem;
+  top: 0.25rem;
+}
