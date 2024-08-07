@@ -1,4 +1,5 @@
 import { ReactNode, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './dialog.module.scss';
 
 type ModalProps = {
@@ -17,30 +18,46 @@ export const Dialog = ({
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const openModal = () => dialogRef.current?.showModal();
-  const closeModal = () => dialogRef.current?.close();
+  const isOpen = dialogRef.current?.open;
 
-  if (!dialogRef.current?.open && open) {
-    openModal();
+  console.log({ open, isOpen });
+
+  if (!isOpen && open) {
+    console.log('Open');
+    dialogRef.current?.showModal();
   }
 
-  if (dialogRef.current?.open && !open) {
-    closeModal();
-  }
+  const closeModal = () => {
+    if (!allowClosing) {
+      console.log('Closing modal blocked');
+      return;
+    }
 
-  return (
+    console.log('Close modal');
+    dialogRef.current?.close();
+    onClose();
+  };
+
+  return createPortal(
     <dialog
       className={styles.dialog}
       ref={dialogRef}
+      onClick={(event) => event.currentTarget === event.target && closeModal()}
+      onCancel={(e) => (allowClosing ? closeModal() : e.preventDefault())}
       data-anchor={anchor}
-      onClose={onClose}
-      onCancel={(event) => !allowClosing && event.preventDefault()}
     >
-      <button type='button' onClick={closeModal} className={styles.close}>
+      <button
+        type='button'
+        onClick={closeModal}
+        className={styles.close}
+        disabled={!allowClosing}
+        aria-disabled={!allowClosing}
+      >
         x
       </button>
 
       {children}
-    </dialog>
+    </dialog>,
+    document.body,
   );
 };

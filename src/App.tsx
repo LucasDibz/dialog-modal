@@ -4,7 +4,6 @@ import { Dialog } from './Dialog';
 function App() {
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log({ isOpen });
   return (
     <>
       <button type='button' onClick={() => setIsOpen(true)}>
@@ -12,9 +11,11 @@ function App() {
       </button>
 
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-        <h1>HTML is amazing</h1>
+        <div>
+          <h1>Amazing dialog</h1>
 
-        <p>Much wow</p>
+          <p>Much wow</p>
+        </div>
       </Dialog>
     </>
   );

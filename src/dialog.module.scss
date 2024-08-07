@@ -5,31 +5,27 @@
   position: fixed;
   overscroll-behavior: contain;
 
-  padding: 1rem;
-
   border: none;
   border-radius: 1rem;
   width: 100%;
 
-  &::backdrop {
-    background-color: darkslategray;
-    opacity: 0.8;
+  animation: slide-out 0.5s ease-out;
+
+  &[open] {
+    animation: slide-in 0.5s ease-out;
+
+    &::backdrop {
+      background-color: darkslategray;
+      opacity: 0.8;
+    }
   }
 
   &[data-anchor='top'] {
     margin-top: 0;
   }
 
-  &[data-anchor='right'] {
-    margin-right: 0;
-  }
-
   &[data-anchor='bottom'] {
     margin-bottom: 0;
-  }
-
-  &[data-anchor='left'] {
-    margin-left: 0;
   }
 
   &[data-anchor] {
@@ -49,4 +45,28 @@
   position: absolute;
   right: 0.5rem;
   top: 0.25rem;
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(100vh);
+    display: none;
+  }
+
+  100% {
+    transform: translateY(0);
+    display: block;
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    transform: translateY(0);
+    display: block;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    display: none;
+  }
 }
